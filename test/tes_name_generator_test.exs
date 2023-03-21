@@ -14,7 +14,8 @@ defmodule TesNameGeneratorTest do
       "imperial",
       "khajiit",
       "nord",
-      "orsimer"
+      "orsimer",
+      "redguard"
     ]
 
     Enum.each(race_list, fn

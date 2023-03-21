@@ -18,7 +18,8 @@ defmodule TesNameGenerator.Impl.NameList do
     :imperial,
     :khajiit,
     :nord,
-    :orsimer
+    :orsimer,
+    :redguard
   ]
 
   ############################## ALTMER ##############################
@@ -184,10 +185,11 @@ defmodule TesNameGenerator.Impl.NameList do
 
   defp apply_nord_modifier(_, base, _), do: base
 
-  ############################## Orsimer ##############################
+  ############################## ORSIMER ##############################
   def get_orsimer(names_data, gender) do
     data = names_data.orsimer
-    Enum.random(data[gender].name) <> orsimer_surname_prefix(gender)
+
+    (Enum.random(data[gender].name) <> orsimer_surname_prefix(gender))
     |> get_orsimer_surname(data, Enum.random(["father", "mother", "surname"]))
   end
 
@@ -195,15 +197,19 @@ defmodule TesNameGenerator.Impl.NameList do
   defp orsimer_surname_prefix(:female), do: " gra-"
 
   defp get_orsimer_surname(base, data, "father") do
-    base <> Enum.random(data.male.name);
+    base <> Enum.random(data.male.name)
   end
 
   defp get_orsimer_surname(base, data, "mother") do
-    base <> Enum.random(data.female.name);
-
+    base <> Enum.random(data.female.name)
   end
 
   defp get_orsimer_surname(base, data, "surname") do
-    base <> Enum.random(data.neutral.surname);
+    base <> Enum.random(data.neutral.surname)
+  end
+
+  ############################## REDGUARD ##############################
+  def get_redguard(names_data, gender) do
+    Enum.random(names_data.redguard[gender].name)
   end
 end
