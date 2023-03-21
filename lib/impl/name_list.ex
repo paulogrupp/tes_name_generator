@@ -70,4 +70,14 @@ defmodule TesNameGenerator.Impl.NameList do
   def get_breton(names_data, gender) do
     Enum.random(names_data.breton[gender].name) <> " " <> Enum.random(names_data.breton.neutral.surname)
   end
+
+  ############################## DUNMER ##############################
+  def get_dunmer(names_data, gender) do
+    Enum.random(names_data.dunmer[gender].name) <> " " <> Enum.random(names_data.dunmer.neutral.surname)
+  end
+
+  ############################## IMPERIAL ##############################
+  def get_imperial(names_data, gender) do
+    Enum.random(names_data.imperial[gender].name) <> " " <> Enum.random(names_data.imperial.neutral.surname)
+  end
 end
