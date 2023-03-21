@@ -125,4 +125,34 @@ defmodule TesNameGenerator.Impl.NameList do
   end
 
   defp apply_khajiit_long(false, base, _, _), do: base
+
+  ############################## NORD ##############################
+
+  def get_nord(names_data, gender) do
+    (Enum.random(names_data.nord[gender].begin) <> Enum.random(names_data.nord[gender].end))
+    |> apply_nord_modifier(names_data)
+  end
+
+  defp apply_nord_modifier(base, data) do
+    Enum.random(["none", "title", "adjective-noun", "adjective-verb"])
+    |> apply_nord_modifier(base, data)
+  end
+
+  defp apply_nord_modifier("title", base, data) do
+    base <> " the " <> Enum.random(data.nord.neutral.title)
+  end
+
+  defp apply_nord_modifier("adjective-noun", base, data) do
+    base <>
+      " " <>
+      Enum.random(data.nord.neutral.adjective) <> "-" <> Enum.random(data.nord.neutral.noun)
+  end
+
+  defp apply_nord_modifier("adjective-verb", base, data) do
+    base <>
+      " " <>
+      Enum.random(data.nord.neutral.adjective) <> "-" <> Enum.random(data.nord.neutral.verb)
+  end
+
+  defp apply_nord_modifier(_, base, _), do: base
 end
