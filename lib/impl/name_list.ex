@@ -40,27 +40,27 @@ defmodule TesNameGenerator.Impl.NameList do
   def get_argonian(names_data, gender) do
     [true, false]
     |> Enum.random()
-    |> get_argonian(names_data, gender)
+    |> get_argonian(names_data.argonian, gender)
   end
 
   defp get_argonian(_tamrielic = true, data, _gender) do
-    Enum.random(data.argonian.neutral.verb) <>
+    Enum.random(data.neutral.verb) <>
       "-" <>
-      Enum.random(data.argonian.neutral.center) <> "-" <> Enum.random(data.argonian.neutral.noun)
+      Enum.random(data.neutral.center) <> "-" <> Enum.random(data.neutral.noun)
   end
 
   defp get_argonian(_tamrielic = false, data, gender) do
     [true, false]
     |> Enum.random()
-    |> get_argonian_by_modifier(data, gender)
+    |> get_argonian_by_modifier(data[gender])
   end
 
-  defp get_argonian_by_modifier(_with_modifier = true, data, gender) do
-    Enum.random(data.argonian[gender].middle) <> "-" <> Enum.random(data.argonian[gender].middle)
+  defp get_argonian_by_modifier(_with_modifier = true, data) do
+    Enum.random(data.middle) <> "-" <> Enum.random(data.middle)
   end
 
-  defp get_argonian_by_modifier(_with_modifier = false, data, gender) do
-    Enum.random(data.argonian[gender].begin) <> Enum.random(data.argonian[gender].end)
+  defp get_argonian_by_modifier(_with_modifier = false, data) do
+    Enum.random(data.begin) <> Enum.random(data.end)
   end
 
   ############################## BOSMER ##############################
