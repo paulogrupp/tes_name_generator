@@ -22,6 +22,30 @@ defmodule TesNameGenerator.Impl.NameList do
     :redguard
   ]
 
+  def get_name(names_data, race, gender) when is_binary(race) do
+    get_name(names_data, String.to_atom(race), gender)
+  end
+
+  def get_name(names_data, race, gender) when is_atom(race) do
+    get_name(names_data, race, gender, Enum.member?(@race_list, race))
+  end
+
+  defp get_name(_names_data, _race, _gender, false), do: nil
+
+  defp get_name(names_data, race, gender, true) do
+    apply(__MODULE__, function_for_race(race), [names_data, gender])
+  end
+
+  defp function_for_race(race) when is_atom(race) do
+    race
+    |> Atom.to_string()
+    |> function_for_race()
+  end
+
+  defp function_for_race(race) when is_binary(race) do
+    String.to_atom("get_" <> race)
+  end
+
   ############################## ALTMER ##############################
   def get_altmer(names_data, gender) do
     data = names_data.altmer[gender]

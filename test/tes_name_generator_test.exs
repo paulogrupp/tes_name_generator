@@ -25,6 +25,14 @@ defmodule TesNameGeneratorTest do
         female_name = apply(TesNameGenerator.Impl.NameList, function, [data, :female])
         refute is_nil(male_name)
         refute is_nil(female_name)
+        male_name = TesNameGenerator.Impl.NameList.get_name(data, race, :male)
+        female_name = TesNameGenerator.Impl.NameList.get_name(data, race, :female)
+        refute is_nil(male_name)
+        refute is_nil(female_name)
+        male_name = TesNameGenerator.Impl.NameList.get_name(data, String.to_atom(race), :male)
+        female_name = TesNameGenerator.Impl.NameList.get_name(data, String.to_atom(race), :female)
+        refute is_nil(male_name)
+        refute is_nil(female_name)
     end)
   end
 end
