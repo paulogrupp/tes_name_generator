@@ -1,5 +1,3 @@
 defmodule TesNameGenerator do
-  @moduledoc """
-  Documentation for `TesNameGenerator`.
-  """
+  defdelegate get_name(race, gender), to: TesNameGenerator.Runtime.Server
 end
