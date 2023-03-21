@@ -10,28 +10,30 @@ defmodule TesNameGenerator.Impl.NameList do
   end
 
   ############################## ALTMER ##############################
-  def get_altmer(names_data, gender = :male) do
-    get_altmer_begin(names_data, gender) <>
-      get_altmer_middle(names_data, gender) <>
-      get_altmer_end(names_data, gender)
+  def get_altmer(names_data, gender) do
+    data = names_data.altmer[gender]
+    get_altmer_begin(data) <>
+      get_altmer_middle(data) <>
+      get_altmer_end(data)
   end
 
-  def get_altmer(names_data, gender = :female) do
-    get_altmer_begin(names_data, gender) <>
-      get_altmer_end(names_data, gender)
+  defp get_altmer_begin(data) do
+    Enum.random(data.begin)
   end
 
-  defp get_altmer_begin(data, gender) do
-    Enum.random(data.altmer[gender].begin)
+  defp get_altmer_middle(data) do
+    get_altmer_middle_by_presence(data[:middle])
   end
 
-  defp get_altmer_middle(data, gender) do
-    Enum.take_random(data.altmer[gender].middle, Enum.random(0..2))
+  defp get_altmer_middle_by_presence(nil), do: ""
+
+  defp get_altmer_middle_by_presence(data) do
+    Enum.take_random(data, Enum.random(0..2))
     |> Enum.join("")
   end
 
-  defp get_altmer_end(data, gender) do
-    Enum.random(data.altmer[gender].end)
+  defp get_altmer_end(data) do
+    Enum.random(data.end)
   end
 
   ############################## ARGONIAN ##############################
