@@ -9,6 +9,7 @@ defmodule TesNameGenerator.Impl.NameList do
     |> Poison.Parser.parse!(%{keys: :atoms})
   end
 
+  ############################## ALTMER ##############################
   def get_altmer(names_data, gender = :male) do
     get_altmer_begin(names_data, gender) <>
       get_altmer_middle(names_data, gender) <>
@@ -17,7 +18,7 @@ defmodule TesNameGenerator.Impl.NameList do
 
   def get_altmer(names_data, gender = :female) do
     get_altmer_begin(names_data, gender) <>
-    get_altmer_end(names_data, gender)
+      get_altmer_end(names_data, gender)
   end
 
   defp get_altmer_begin(data, gender) do
@@ -31,5 +32,32 @@ defmodule TesNameGenerator.Impl.NameList do
 
   defp get_altmer_end(data, gender) do
     Enum.random(data.altmer[gender].end)
+  end
+
+  ############################## ARGONIAN ##############################
+  def get_argonian(names_data, gender) do
+    [true, false]
+    |> Enum.random()
+    |> get_argonian(names_data, gender)
+  end
+
+  def get_argonian(_tamrielic = true, data, _gender) do
+    Enum.random(data.argonian.neutral.verb) <>
+      "-" <>
+      Enum.random(data.argonian.neutral.center) <> "-" <> Enum.random(data.argonian.neutral.noun)
+  end
+
+  def get_argonian(_tamrielic = false, data, gender) do
+    [true, false]
+    |> Enum.random()
+    |> get_argonian_by_modifier(data, gender)
+  end
+
+  defp get_argonian_by_modifier(_with_modifier = true, data, gender) do
+    Enum.random(data.argonian[gender].middle) <> "-" <> Enum.random(data.argonian[gender].middle)
+  end
+
+  defp get_argonian_by_modifier(_with_modifier = false, data, gender) do
+    Enum.random(data.argonian[gender].begin) <> Enum.random(data.argonian[gender].end)
   end
 end
