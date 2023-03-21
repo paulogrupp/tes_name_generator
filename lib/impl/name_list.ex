@@ -1,11 +1,10 @@
 defmodule TesNameGenerator.Impl.NameList do
   @type t :: map()
+  alias TesNameGenerator.Impl.NameData
 
   @spec names_data :: t
   def names_data do
-    "../../assets/data.json"
-    |> Path.expand(__DIR__)
-    |> File.read!()
+    NameData.get_data()
     |> Poison.Parser.parse!(%{keys: :atoms})
   end
 
