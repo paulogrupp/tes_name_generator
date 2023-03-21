@@ -65,4 +65,9 @@ defmodule TesNameGenerator.Impl.NameList do
   def get_bosmer(names_data, gender) do
     Enum.random(names_data.bosmer[gender].begin) <> Enum.random(names_data.bosmer[gender].end);
   end
+
+  ############################## BRETON ##############################
+  def get_breton(names_data, gender) do
+    Enum.random(names_data.breton[gender].name) <> " " <> Enum.random(names_data.breton.neutral.surname)
+  end
 end
