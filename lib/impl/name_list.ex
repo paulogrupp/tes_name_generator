@@ -17,7 +17,8 @@ defmodule TesNameGenerator.Impl.NameList do
     :dunmer,
     :imperial,
     :khajiit,
-    :nord
+    :nord,
+    :orsimer
   ]
 
   ############################## ALTMER ##############################
@@ -182,4 +183,27 @@ defmodule TesNameGenerator.Impl.NameList do
   end
 
   defp apply_nord_modifier(_, base, _), do: base
+
+  ############################## Orsimer ##############################
+  def get_orsimer(names_data, gender) do
+    data = names_data.orsimer
+    Enum.random(data[gender].name) <> orsimer_surname_prefix(gender)
+    |> get_orsimer_surname(data, Enum.random(["father", "mother", "surname"]))
+  end
+
+  defp orsimer_surname_prefix(:male), do: " gro-"
+  defp orsimer_surname_prefix(:female), do: " gra-"
+
+  defp get_orsimer_surname(base, data, "father") do
+    base <> Enum.random(data.male.name);
+  end
+
+  defp get_orsimer_surname(base, data, "mother") do
+    base <> Enum.random(data.female.name);
+
+  end
+
+  defp get_orsimer_surname(base, data, "surname") do
+    base <> Enum.random(data.neutral.surname);
+  end
 end
