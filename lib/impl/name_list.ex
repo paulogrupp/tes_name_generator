@@ -63,21 +63,64 @@ defmodule TesNameGenerator.Impl.NameList do
 
   ############################## BOSMER ##############################
   def get_bosmer(names_data, gender) do
-    Enum.random(names_data.bosmer[gender].begin) <> Enum.random(names_data.bosmer[gender].end);
+    Enum.random(names_data.bosmer[gender].begin) <> Enum.random(names_data.bosmer[gender].end)
   end
 
   ############################## BRETON ##############################
   def get_breton(names_data, gender) do
-    Enum.random(names_data.breton[gender].name) <> " " <> Enum.random(names_data.breton.neutral.surname)
+    Enum.random(names_data.breton[gender].name) <>
+      " " <> Enum.random(names_data.breton.neutral.surname)
   end
 
   ############################## DUNMER ##############################
   def get_dunmer(names_data, gender) do
-    Enum.random(names_data.dunmer[gender].name) <> " " <> Enum.random(names_data.dunmer.neutral.surname)
+    Enum.random(names_data.dunmer[gender].name) <>
+      " " <> Enum.random(names_data.dunmer.neutral.surname)
   end
 
   ############################## IMPERIAL ##############################
   def get_imperial(names_data, gender) do
-    Enum.random(names_data.imperial[gender].name) <> " " <> Enum.random(names_data.imperial.neutral.surname)
+    Enum.random(names_data.imperial[gender].name) <>
+      " " <> Enum.random(names_data.imperial.neutral.surname)
   end
+
+  ############################## KHAJIIT ##############################
+  def get_khajiit(names_data, gender) do
+    base = ""
+    type = Enum.random(["prefix", "suffix", "none"])
+    long = Enum.random([true, false])
+
+    base
+    |> apply_khajiit_prefix(names_data, type, gender)
+    |> apply_khajiit_begin(names_data, gender)
+    |> apply_khajiit_long(names_data, long, gender)
+    |> apply_khajiit_end(names_data, gender)
+    |> apply_khajiit_suffix(names_data, type, gender)
+  end
+
+  def apply_khajiit_prefix(base, data, "prefix", gender) do
+    base <> Enum.random(data.khajiit[gender].prefix)
+  end
+
+  def apply_khajiit_prefix(base, _, _, _), do: base
+
+  def apply_khajiit_begin(base, data, gender) do
+    base <> Enum.random(data.khajiit[gender].begin)
+  end
+
+  def apply_khajiit_end(base, data, gender) do
+    base <> Enum.random(data.khajiit[gender].end)
+  end
+
+  def apply_khajiit_suffix(base, data, "suffix", gender) do
+    base <> Enum.random(data.khajiit[gender].suffix)
+  end
+
+  def apply_khajiit_suffix(base, _, _, _), do: base
+
+  def apply_khajiit_long(base, data, true, gender) do
+    base <> Enum.random(data.khajiit[gender].middle)
+  end
+
+  def apply_khajiit_long(base, _, _, _), do: base
 end
