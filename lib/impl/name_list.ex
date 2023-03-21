@@ -86,23 +86,20 @@ defmodule TesNameGenerator.Impl.NameList do
 
   ############################## KHAJIIT ##############################
   def get_khajiit(names_data, gender) do
-    base = ""
     type = Enum.random(["prefix", "suffix", "none"])
-    long = Enum.random([true, false])
 
-    base
-    |> apply_khajiit_prefix(names_data, type, gender)
+    apply_khajiit_prefix(names_data, type, gender)
     |> apply_khajiit_begin(names_data, gender)
-    |> apply_khajiit_long(names_data, long, gender)
+    |> apply_khajiit_long(names_data, gender)
     |> apply_khajiit_end(names_data, gender)
     |> apply_khajiit_suffix(names_data, type, gender)
   end
 
-  def apply_khajiit_prefix(base, data, "prefix", gender) do
-    base <> Enum.random(data.khajiit[gender].prefix)
+  def apply_khajiit_prefix(data, "prefix", gender) do
+    "" <> Enum.random(data.khajiit[gender].prefix)
   end
 
-  def apply_khajiit_prefix(base, _, _, _), do: base
+  def apply_khajiit_prefix(_, _, _), do: ""
 
   def apply_khajiit_begin(base, data, gender) do
     base <> Enum.random(data.khajiit[gender].begin)
@@ -118,9 +115,14 @@ defmodule TesNameGenerator.Impl.NameList do
 
   def apply_khajiit_suffix(base, _, _, _), do: base
 
-  def apply_khajiit_long(base, data, true, gender) do
+  def apply_khajiit_long(base, data, gender) do
+    Enum.random([true, false])
+    |> apply_khajiit_long(base, data, gender)
+  end
+
+  def apply_khajiit_long(true, base, data, gender) do
     base <> Enum.random(data.khajiit[gender].middle)
   end
 
-  def apply_khajiit_long(base, _, _, _), do: base
+  def apply_khajiit_long(false, base, _, _), do: base
 end
