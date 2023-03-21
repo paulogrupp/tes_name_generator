@@ -41,13 +41,13 @@ defmodule TesNameGenerator.Impl.NameList do
     |> get_argonian(names_data, gender)
   end
 
-  def get_argonian(_tamrielic = true, data, _gender) do
+  defp get_argonian(_tamrielic = true, data, _gender) do
     Enum.random(data.argonian.neutral.verb) <>
       "-" <>
       Enum.random(data.argonian.neutral.center) <> "-" <> Enum.random(data.argonian.neutral.noun)
   end
 
-  def get_argonian(_tamrielic = false, data, gender) do
+  defp get_argonian(_tamrielic = false, data, gender) do
     [true, false]
     |> Enum.random()
     |> get_argonian_by_modifier(data, gender)
@@ -59,5 +59,10 @@ defmodule TesNameGenerator.Impl.NameList do
 
   defp get_argonian_by_modifier(_with_modifier = false, data, gender) do
     Enum.random(data.argonian[gender].begin) <> Enum.random(data.argonian[gender].end)
+  end
+
+  ############################## BOSMER ##############################
+  def get_bosmer(names_data, gender) do
+    Enum.random(names_data.bosmer[gender].begin) <> Enum.random(names_data.bosmer[gender].end);
   end
 end
